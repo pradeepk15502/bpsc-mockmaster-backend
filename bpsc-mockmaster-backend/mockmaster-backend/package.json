@@ -1,0 +1,45 @@
+{
+  "name": "bpsc-mockmaster-backend",
+  "version": "1.0.0-rc.1",
+  "private": true,
+  "description": "BPSC MockMaster \u2014 production backend (modular monolith + workers)",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"const fs=require('fs');fs.mkdirSync('dist/src/db/migrations',{recursive:true});for(const f of fs.readdirSync('src/db/migrations'))fs.copyFileSync('src/db/migrations/'+f,'dist/src/db/migrations/'+f)\"",
+    "start": "node dist/src/server.js",
+    "start:worker": "node dist/src/worker.js",
+    "dev": "tsx watch src/server.ts",
+    "dev:worker": "tsx watch src/worker.ts",
+    "migrate": "tsx src/db/migrate.ts",
+    "seed:reference": "tsx src/db/seed-reference.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "create-admin": "tsx src/scripts/create-admin.ts",
+    "start:migrate": "node dist/src/db/migrate.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/cors": "^11.3.0",
+    "@fastify/formbody": "^9.0.0",
+    "@fastify/helmet": "^13.1.1",
+    "@fastify/rate-limit": "^11.2.0",
+    "bullmq": "^6.3.11",
+    "fastify": "^5.12.5",
+    "fastify-plugin": "^6.0.0",
+    "ioredis": "^6.0.0",
+    "pg": "^8.23.1",
+    "pino": "^10.4.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
